@@ -218,15 +218,19 @@ loop:;// Let user to input the file path.
 			{
 				k--;
 			}
-			switch ((int)str[k])
+			if (k > 0)
 			{
-			case '{':break;
-			case '}':break;
-			case ')':break;
-			case ']':break;
-			case '>':break;
-			case '\"':break;
-			default:printf("Missing \';\' in line %d.\n", i + 1);
+				switch ((int)str[k])
+				{
+				case '{':break;
+				case '}':break;
+				case ')':break;
+				case ']':break;
+				case '>':break;
+				case '\"':break;
+				case'\0':break;
+				default:printf("Missing \';\' in line %d.\n", i + 1);
+				}
 			}
 		}
 		p = p->next;
