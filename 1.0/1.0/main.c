@@ -4,8 +4,7 @@
 #define MAXLINELENGTH 200
 typedef struct Line
 {
-	int lineNumber;
-	char lineContent[200];
+	char content[200];
 	struct Line * next;
 }Line;
 main()
@@ -60,8 +59,7 @@ loop:;// Let user to input the file path.
 		{
 			str[strlen(str) - 1] = '\0';
 		}
-		strcpy_s(p->lineContent, MAXLINELENGTH, str);
-		p->lineNumber = fileLineNumber;
+		strcpy_s(p->content, MAXLINELENGTH, str);
 		p->next = (Line *)malloc(sizeof(Line));
 		p = p->next;
 	}
@@ -71,7 +69,7 @@ loop:;// Let user to input the file path.
 	printf("Please comform the content of the file.\n");
 	for (i = 0; i < fileLineNumber; i++)
 	{
-		printf("%4d   %s\n", p->lineNumber, p->lineContent);
+		printf("%4d   %s\n", i+1, p->content);
 		p = p->next;
 	}
 	//Let user conform the file(will reload if users does not press y ).
@@ -109,18 +107,18 @@ loop:;// Let user to input the file path.
 		p = lp;
 		for (i = 0; i < fileLineNumber; i++)
 		{
-			lineLength = strlen(p->lineContent);
+			lineLength = strlen(p->content);
 			for (j = 0; j < lineLength; j++)
 			{
 				if (multilineCommentsFlag)
 				{
-					if (p->lineContent[j] == '*' && p->lineContent[j + 1] == '/')
+					if (p->content[j] == '*' && p->content[j + 1] == '/')
 					{
-						if (multilineCommentsLineFlag == p->lineNumber)
+						if (multilineCommentsLineFlag == i+1)
 						{
 							for (k = j + 2, t = multilineCommentsFlag - 1; k < lineLength + 1; k++)
 							{
-								p->lineContent[t++] = p->lineContent[k];
+								p->content[t++] = p->content[k];
 							}
 							j = multilineCommentsFlag - 1;
 						}
@@ -128,38 +126,38 @@ loop:;// Let user to input the file path.
 						{
 							for (k = j + 2, t = 0; k < lineLength + 1; k++)
 							{
-								p->lineContent[t++] = p->lineContent[k];
+								p->content[t++] = p->content[k];
 							}
 						}
 						multilineCommentsFlag = 0;
 					}
-					if (p->lineContent[j + 1] == '\0')
+					if (p->content[j + 1] == '\0')
 					{
-						if (multilineCommentsLineFlag == p->lineNumber)
+						if (multilineCommentsLineFlag == i+1)
 						{
-							p->lineContent[multilineCommentsFlag - 1] = '\0';
+							p->content[multilineCommentsFlag - 1] = '\0';
 						}
 						else
 						{
-							p->lineContent[0] = '\0';
+							p->content[0] = '\0';
 						}
 					}
 				}
-				else if (p->lineContent[j] == '/')
+				else if (p->content[j] == '/')
 				{
-					if (p->lineContent[j + 1] == '/')
+					if (p->content[j + 1] == '/')
 					{
-						p->lineContent[j] = '\0';
+						p->content[j] = '\0';
 						break;
 					}
-					else if (p->lineContent[j + 1] == '*')
+					else if (p->content[j + 1] == '*')
 					{
 						multilineCommentsFlag = j + 1;
-						multilineCommentsLineFlag = p->lineNumber;
+						multilineCommentsLineFlag = i + 1;
 					}
 				}
 			}
-			printf("%4d   %s\n", p->lineNumber, p->lineContent);
+			printf("%4d   %s\n", i+1 , p->content);
 			p = p->next;
 		}
 	}
@@ -167,7 +165,7 @@ loop:;// Let user to input the file path.
 	p = lp;
 	for (i = 0; i < fileLineNumber; i++)
 	{
-		strcpy_s(str, MAXLINELENGTH, p->lineContent);
+		strcpy_s(str, MAXLINELENGTH, p->content);
 		lineLength = strlen(str);
 		parenthesisCount = squareBracketCount = angleBracketCount = singleQuotationMarkCount = doubleQuotationMarkCount = 0;
 		for (j = 0; j < lineLength; j++)
