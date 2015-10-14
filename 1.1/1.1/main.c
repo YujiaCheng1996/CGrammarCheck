@@ -21,6 +21,7 @@ main()
 	Line * lp = NULL, *p = NULL;
 	char filePath[MAXLINELENGTH];
 loop:;// Let user to input the file path.
+	k = 0;
 	printf("Please iput the file path:");
 	while ((t = getchar()) != '\n')
 	{
@@ -230,7 +231,7 @@ loop:;// Let user to input the file path.
 				case ']':break;
 				case '>':break;
 				case '\"':break;
-				case'\0':break;
+				case '\0':break;
 				default:printf("Missing \';\' in line %d.\n", i + 1); wrongNumber++;
 				}
 			}
