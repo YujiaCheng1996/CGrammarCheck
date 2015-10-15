@@ -221,7 +221,7 @@ loop:;// Let user to input the file path.
 			{
 				k--;
 			}
-			if (k > 0)
+			if (k > 0 && str[0] != '#')
 			{
 				switch ((int)str[k])
 				{
